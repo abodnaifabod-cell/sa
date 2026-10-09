@@ -238,17 +238,17 @@ AutoBombBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- إظهار/إخفاء القائمة الجديدة عند الضغط على زر Auto ْم الرئيسي
+-- إظهار/إخفاء القائمة الجديدة عند الضغط على زر Auto 💣 الرئيسي
 AutoMainBtn.MouseButton1Click:Connect(function()
     SubAutoFrame.Visible = not SubAutoFrame.Visible
 end)
 
--- نظام الأوتو بومب الذكي (استهداف أقرب خصم فقط وبشرط وجود القنبلة معك)
+-- نظام الأوتو بومب الذكي (المشي الطبيعي نحو أقرب خصم عند امتلاك القنبلة)
 RunService.RenderStepped:Connect(function()
     if not autoBombActive then return end
     
     local character = LocalPlayer.Character
-    if not character or not character:FindFirstChild("HumanoidRootPart") then return end
+    if not character or not character:FindFirstChild("HumanoidRootPart") or not character:FindFirstChild("Humanoid") then return end
     
     -- شرط أساسي: التأكد أن القنبلة معك (في اليد أو الحقيبة)
     local backpack = LocalPlayer:FindFirstChild("Backpack")
@@ -284,8 +284,8 @@ RunService.RenderStepped:Connect(function()
         end
     end
     
-    -- التوجه نحو أقرب خصم تم العثور عليه
+    -- المشي نحو أقرب خصم بسلاسة بدلاً من الالتصاق الفوري
     if closestEnemy then
-        character.HumanoidRootPart.CFrame = closestEnemy.CFrame
+        character.Humanoid:MoveTo(closestEnemy.Position)
     end
 end)
